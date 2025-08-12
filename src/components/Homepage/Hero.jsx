@@ -36,7 +36,14 @@ const Hero = () => {
     }
 
     console.log(heroContent);
-    const [firstPart, secondPart] = heroContent?.heading.split(/—|_/).map(str => str.trim());
+    let firstPart = "";
+    let secondPart = "";
+
+    if (heroContent?.heading) {
+        [firstPart, secondPart] = heroContent.heading
+            .split(/—|_/)
+            .map(str => str.trim());
+    }
     // Click outside to close
     useEffect(() => {
         const handler = (e) => {
@@ -60,7 +67,7 @@ const Hero = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
                         <div className="text-center md:text-left">
                             <h1 className="hero_heading mb-4">
-                            {firstPart  ||  "Patriata Awaits" }<br className="hidden md:block" /> { secondPart || "Explore Nature from New Heights"}
+                                {firstPart || "Patriata Awaits"}<br className="hidden md:block" /> {secondPart || "Explore Nature from New Heights"}
                             </h1>
                             <p className="smallText md:mx-0" style={{ color: "white" }}>
                                 {heroContent?.paragraph || "Experience the thrill of soaring above Murree’s lush forests with our scenic chairlift— book your ride online for a seamless and memorable adventure."}
