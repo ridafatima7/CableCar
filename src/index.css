@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Anton+SC&family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Great+Vibes&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Judson:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Unna:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.dm-sans{
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+.unna-regular {
+  font-family: "Unna", serif;
+  font-style: normal;
+}
+.primary{
+  color:var(--primary)
+}
+.primary-bg{
+  background-color:var(--primary)
+}
+.secondary{
+  color:var(--secondary)
+}
+.secondary-bg{
+  background-color:var(--secondary)
+}
+:root{
+  --primary:#48AA71;
+  --secondary:#0D542B;
+  --buttonHoverColor:#0D542B;
+  --textColor:#888888;
+
+}
+html,body, #App {
+  background: #ffffff;
+  font-family: "DM Sans", sans-serif;
+  box-sizing: border-box;
+}
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 90%;
+  width: 100%;
+  margin: 0 auto;
+}
+.hero_heading{
+  font-weight: 500;
+  letter-spacing: 3px;
+  font-size: 55px;
+  line-height: normal;
+}
+.hero_heading{
+  font-weight: 400;
+  line-height: normal;
+  font-size: 58px;
+}
+.main_heading{
+  font-weight: 400;
+  line-height: normal;
+  font-size: 50px;
+}
+.subheading{
+  font-family: "Unna", serif;
+  color:var(--primary);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+.subheading-white{
+  font-family: "Poppins",sans-serif;
+  color:white;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+.subheading-white:hover{
+ color:var(--primary)
+}
+/* Core DatePicker wrapper */
+.custom-datepicker.ant-picker {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  background-color: #F5F5F5 !important;
+  color: #868686 !important; /* Selected text color */
+}
+
+/* Hover styles */
+.custom-datepicker.ant-picker:hover {
+  border: none !important;
+  box-shadow: none !important;
+  background-color: #F5F5F5 !important;
+}
+
+/* Focus & outline removal */
+.custom-datepicker.ant-picker-focused,
+.custom-datepicker.ant-picker:focus,
+.custom-datepicker.ant-picker:focus-within,
+.custom-datepicker.ant-picker-outlined:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  background-color: #F5F5F5 !important;
+  color: #868686 !important;
+}
+
+/* Edge-case override from AntD dev classes */
+.dev-only-do-not-override-os2fvf.ant-picker-outlined:focus-within {
+  outline: 0 !important;
+  background-color: transparent !important;
+  border-color: #F5F5F5 !important;
+  box-shadow: none !important;
+}
+
+/* 👇 Optional: Override calendar popup hover/focus styles */
+.ant-picker-dropdown .ant-picker-cell:hover {
+  background: transparent !important;
+}
+
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
+  background: #D2ECDD !important; /* your selected date background */
+  color: #868686 !important;      /* selected date text */
+}
+
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+  border-color: transparent !important;
+}
+
+.ant-picker-dropdown .ant-picker-cell-inner:hover {
+  background: #E6F0EC !important;
+  color: #868686 !important;
+}
+
+.subheading-bold{
+  text-transform: uppercase;
+  font-family: "Unna", serif;
+  color:var(--secondary);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+}
+button{
+  border: none;
+  cursor:pointer;
+  background-color: var(--primary);
+  color:white;
+  font-size:14px;
+  border-radius:5px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover{
+  background-color: var(--buttonHoverColor);
+}
+.smallText{
+  font-size:16px;
+  color:var(--textColor);
+  font-weight: normal;
+  line-height:24px;
+}
+@media (max-width: 768px) {
+  button {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  .main_heading {
+    font-weight: 400;
+    font-size: 25px;
+  }
+  .smallText{
+    font-size:14px;
+  }
+  .smallText_grey{
+    font-size:14px;
+  }
+  .hero_heading{
+    font-weight: 400;
+    font-size: 27px;
+  }
+  .main_heading{
+    font-weight: 400;
+    font-size: 30px;
+  }
+  button{
+    font-size:14px;
+  }
+}
+
