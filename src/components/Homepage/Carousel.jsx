@@ -2,53 +2,53 @@ import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { FaStar, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import service from "../../assets/busService.jpg";
+import service_img from "../../assets/busService.jpg";
 import { Pagination } from 'swiper/modules';
-const Reviews = () => {
+const Reviews = ({reviews}) => {
     const swiperRef = useRef(null);
-    const reviews = [
-        {
-            title: 'Amazing Experience',
-            name: 'Sarah Khan',
-            rating: 5,
-            comment:
-                'TripNavigator made our dream vacation a reality! From the moment we contacted them, their team was attentive, knowledgeable, and dedicated to ensuring we had an unforgettable experience.',
-        },
-        {
-            title: 'Excellent Service',
-            name: 'Ali Raza',
-            rating: 4,
-            comment:
-                'TripNavigator made our dream vacation a reality! From the moment we contacted them, their team was attentive, knowledgeable, and dedicated to ensuring we had an unforgettable experience.',
-        },
-        {
-            title: 'Highly Recommend!',
-            name: 'Maria Ahmed',
-            rating: 5,
-            comment:
-                'TripNavigator made our dream vacation a reality! From the moment we contacted them, their team was attentive, knowledgeable, and dedicated to ensuring we had an unforgettable experience.',
-        },
-        {
-            title: 'Smooth & Enjoyable',
-            name: 'Usman Tariq',
-            rating: 4,
-            comment:
-                'Booking was super easy and the staff helped us throughout our tour. Loved the overall service.',
-        },
-        {
-            title: 'Unforgettable Memories',
-            name: 'Zainab Ali',
-            rating: 5,
-            comment:
-                'From pick-up to drop-off, everything was perfect. Thank you for making this trip special!',
-        },
-    ];
+    // const reviews = [
+    //     {
+    //         title: 'Amazing Experience',
+    //         name: 'Sarah Khan',
+    //         rating: 5,
+    //         comment:
+    //             'TripNavigator made our dream vacation a reality! From the moment we contacted them, their team was attentive, knowledgeable, and dedicated to ensuring we had an unforgettable experience.',
+    //     },
+    //     {
+    //         title: 'Excellent Service',
+    //         name: 'Ali Raza',
+    //         rating: 4,
+    //         comment:
+    //             'TripNavigator made our dream vacation a reality! From the moment we contacted them, their team was attentive, knowledgeable, and dedicated to ensuring we had an unforgettable experience.',
+    //     },
+    //     {
+    //         title: 'Highly Recommend!',
+    //         name: 'Maria Ahmed',
+    //         rating: 5,
+    //         comment:
+    //             'TripNavigator made our dream vacation a reality! From the moment we contacted them, their team was attentive, knowledgeable, and dedicated to ensuring we had an unforgettable experience.',
+    //     },
+    //     {
+    //         title: 'Smooth & Enjoyable',
+    //         name: 'Usman Tariq',
+    //         rating: 4,
+    //         comment:
+    //             'Booking was super easy and the staff helped us throughout our tour. Loved the overall service.',
+    //     },
+    //     {
+    //         title: 'Unforgettable Memories',
+    //         name: 'Zainab Ali',
+    //         rating: 5,
+    //         comment:
+    //             'From pick-up to drop-off, everything was perfect. Thank you for making this trip special!',
+    //     },
+    // ];
     const [currentIndex, setCurrentIndex] = useState(0);
-    const totalSlides = reviews.length;
+    const totalSlides = reviews?.review?.length;
     return (
         <section className="bg-[#F6F6F9] py-12 md:py-28">
             <div className="max-w-7xl mx-auto px-6 text-center">
-                <h2 className="main_heading mb-12">What Clients Say About Us</h2>
+                <h2 className="main_heading mb-12">{reviews?.heading || "What Clients Say About Us"}</h2>
 
                 <Swiper
                     onSwiper={(swiper) => (swiperRef.current = swiper)}
@@ -60,7 +60,7 @@ const Reviews = () => {
                         1024: { slidesPerView: 3 },
                     }}
                 >
-                    {reviews.map((review, index) => (
+                    {reviews?.reviews.map((review, index) => (
                         <SwiperSlide key={index}>
                             <div className="p-6 h-full flex flex-col justify-between text-center">
                                 <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-1">
@@ -110,37 +110,37 @@ const Reviews = () => {
 };
 export default Reviews;
 
-export const OurServices = () => {
+export const OurServices = ({services}) => {
     const swiperRef = useRef(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [perView, setPerView] = useState(3); // Default for desktop
 
-    const services = [
-        {
-            title: 'Bus Services',
-            description:
-                'Comfortable shuttle and bus services are available to transport visitors from Murree city and surrounding areas to the Patriata Chairlift base station.',
-            image: service,
-        },
-        {
-            title: 'Tourist Guidance',
-            description:
-                'Expert guides ensure tourists have safe, informative, and enjoyable experiences across all services.',
-            image: service,
-        },
-        {
-            title: 'Ticketing Support',
-            description:
-                'On-site and online ticketing support for quick, hassle-free access to your ride.',
-            image: service,
-        },
-        {
-            title: 'Support',
-            description:
-                'On-site and online ticketing support for quick, hassle-free access to your ride.',
-            image: service,
-        },
-    ];
+    // const services = [
+    //     {
+    //         title: 'Bus Services',
+    //         description:
+    //             'Comfortable shuttle and bus services are available to transport visitors from Murree city and surrounding areas to the Patriata Chairlift base station.',
+    //         image: service,
+    //     },
+    //     {
+    //         title: 'Tourist Guidance',
+    //         description:
+    //             'Expert guides ensure tourists have safe, informative, and enjoyable experiences across all services.',
+    //         image: service,
+    //     },
+    //     {
+    //         title: 'Ticketing Support',
+    //         description:
+    //             'On-site and online ticketing support for quick, hassle-free access to your ride.',
+    //         image: service,
+    //     },
+    //     {
+    //         title: 'Support',
+    //         description:
+    //             'On-site and online ticketing support for quick, hassle-free access to your ride.',
+    //         image: service,
+    //     },
+    // ];
 
     const handleSlideChange = (swiper) => {
         const currentSlidesPerView = swiper.params.breakpoints
@@ -155,9 +155,9 @@ export const OurServices = () => {
     return (
         <section className="bg-white py-12 md:py-28">
             <div className="container text-center">
-                <p className="subheading mb-2">OUR SERVICES</p>
+                <p className="subheading mb-2">{services?.id || "OUR SERVICES"}</p>
                 <h2 className="main_heading mb-12">
-                    Making Your Journey Seamless
+                   {services?.heading || "Making Your Journey Seamless"}
                 </h2>
 
                 <Swiper
@@ -171,11 +171,11 @@ export const OurServices = () => {
                     onSwiper={(swiper) => (swiperRef.current = swiper)}
                     onSlideChange={handleSlideChange}
                 >
-                    {services.map((service, index) => (
+                    {services?.services.map((service, index) => (
                         <SwiperSlide key={index}>
                             <div
                                 className="group relative rounded-xl overflow-hidden h-[360px] flex flex-col justify-end p-6 bg-cover bg-center text-center text-white"
-                                style={{ backgroundImage: `url(${service.image})` }}
+                                style={{ backgroundImage: `url(${service?.image || service_img})` }}
                             >
                                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-all duration-300 z-0" />
                                 <div className="relative z-10">
@@ -198,7 +198,7 @@ export const OurServices = () => {
 
                 {/*  Custom Pagination */}
                 <div className="flex justify-center mt-16 gap-2">
-                    {Array.from({ length: Math.ceil(services.length / perView) }).map((_, index) => (
+                    {Array.from({ length: Math.ceil(services?.services?.length / perView) }).map((_, index) => (
                         <button
                             key={index}
                             onClick={() => swiperRef.current?.slideTo(index * perView)}

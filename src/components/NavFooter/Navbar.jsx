@@ -8,7 +8,20 @@ import { Link } from "react-router-dom";
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const storedData = JSON.parse(sessionStorage.getItem("content") || "{}");
+  let navbarDetails=null;
+  if (storedData.sections && storedData.images) {
+    // Find the navbar section
+    const navbarSection = storedData?.sections?.find(sec => sec.id === "navbar");
+    const mainLogo = storedData?.images?.find(img => img.name === "logo");
+    // Step 3: Get right logos images
+    const rightSideLogos = storedData?.images?.filter(img => img.name === 'tdcp' || img.name === 'gop')
+     navbarDetails = {
+      ...navbarSection,
+      logo: mainLogo.path || null,
+      righSidelogos: rightSideLogos.map(img => img.path || null)
+    }
+  }
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -27,26 +40,42 @@ const Header = () => {
         {/* Left: Logo */}
         <div className="flex items-center">
           <Link to="/">
-            <img src={Logo} alt="Logo" className="w-[12rem]" />
+            <img src={navbarDetails?.logo || Logo} alt="Logo" className="w-[12rem]" />
           </Link>
         </div>
 
         {/* Center: Nav Links */}
-        <nav
+        {/* <nav
           className="hidden md:flex space-x-6 font-medium transition duration-300"
           style={{ color: scrolled ? '#494949' : '#ffffff' }}
         >
-          <Link to="/" className="hover:text-[#DF8600] subheading-white" style={{ color: scrolled ? '#494949' : '#ffffff' }}>Home</Link>
+                   <Link to={menu.link} className="hover:text-[#DF8600] subheading-white" style={{ color: scrolled ? '#494949' : '#ffffff' }}>{menu.label}</Link>
+                  
           <Link to="#" className="hover:text-[#DF8600] subheading-white" style={{ color: scrolled ? '#494949' : '#ffffff' }}>About Us</Link>
           <Link to="#" className="hover:text-[#DF8600] subheading-white" style={{ color: scrolled ? '#494949' : '#ffffff' }}>Services</Link>
           <Link to="#" className="hover:text-[#DF8600] subheading-white" style={{ color: scrolled ? '#494949' : '#ffffff' }}>Packages</Link>
           <Link to="#" className="hover:text-[#DF8600] subheading-white" style={{ color: scrolled ? '#494949' : '#ffffff' }}>Contact Us</Link>
+        </nav> */}
+        <nav
+          className="hidden md:flex space-x-6 font-medium transition duration-300"
+          style={{ color: scrolled ? '#494949' : '#ffffff' }}
+        >
+          {navbarDetails?.menus?.map((menu, index) => (
+            <Link
+              key={index}
+              to={menu.link}
+              className="hover:text-[#DF8600] subheading-white"
+              style={{ color: scrolled ? '#494949' : '#ffffff' }}
+            >
+              {menu.label}
+            </Link>
+          ))}
         </nav>
 
         {/* Right: Extra Logos */}
         <div className="hidden md:flex space-x-4">
-          <img src={ExtraLogo1} alt="Extra 1" className="h-[4rem]" />
-          <img src={ExtraLogo2} alt="Extra 2" className="h-[4rem]" />
+          <img src={navbarDetails?.righSidelogos[0] || ExtraLogo1} alt="Extra 1" className="h-[4rem]" />
+          <img src={navbarDetails?.righSidelogos[1] || ExtraLogo2} alt="Extra 2" className="h-[4rem]" />
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -80,20 +109,32 @@ const Header = () => {
             className="absolute top-4 right-4 text-2xl primary-bg"
             onClick={() => setMobileMenuOpen(false)}
           >
-           <FaTimes />
+            <FaTimes />
           </button>
 
           {/* Menu Links */}
-          <Link to="/" className="block subheading-white pt-[5rem] mt-30" style={{ color: '#494949' }}>Home</Link>
+          <div className="pt-[5rem] mt-30">
+            {navbarDetails?.menus?.map((menu, index) => (
+              <Link
+                key={index}
+                to={menu.link}
+                className={`block subheading-white ${index === 0 ? '' : 'pt-2'}`}
+                style={{ color: '#494949' }}
+              >
+                {menu.label}
+              </Link>
+            ))}
+          </div>
+          {/* <Link to="/" className="block subheading-white pt-[5rem] mt-30" style={{ color: '#494949' }}>Home</Link>
           <Link to="#" className="block subheading-white pt-2" style={{ color: '#494949' }}>About Us</Link>
           <Link to="#" className="block subheading-white pt-2" style={{ color: '#494949' }}>Services</Link>
           <Link to="#" className="block subheading-white pt-2" style={{ color: '#494949' }}>Packages</Link>
-          <Link to="#" className="block subheading-white pt-2" style={{ color: '#494949' }}>Contact Us</Link>
+          <Link to="#" className="block subheading-white pt-2" style={{ color: '#494949' }}>Contact Us</Link> */}
 
           {/* Logos */}
           <div className="flex space-x-4 pt-3">
-            <img src={ExtraLogo1} alt="Extra 1" className="h-[4rem]" />
-            <img src={ExtraLogo2} alt="Extra 2" className="h-[4.4rem]" />
+            <img src={navbarDetails?.righSidelogos[0] || ExtraLogo1} alt="Extra 1" className="h-[4rem]" />
+            <img src={navbarDetails?.righSidelogos[1] || ExtraLogo2} alt="Extra 2" className="h-[4.4rem]" />
           </div>
         </div>
       </>

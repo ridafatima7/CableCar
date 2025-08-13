@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import img1 from '../../assets/img3.jpg';
 import img2 from '../../assets/greenBg.png'
 import bottomImage from '../../assets/img4.png';
@@ -8,7 +8,7 @@ import chooseImg1 from "../../assets/img1.jpg";
 import { FaArrowRight } from 'react-icons/fa';
 import Reviews, { OurServices } from './Carousel';
 import Hero from './Hero';
-import { getContent } from '../../APIS';
+import { getContent, getSectionsWithImages } from '../../APIS';
 const Home = () => {
     const [content, setContent] = useState(null);
     useEffect(() => {
@@ -24,8 +24,8 @@ const Home = () => {
                         const root = document.documentElement;
                         root.style.setProperty("--primary", parsed.theme.primaryColor || "#48AA71");
                         root.style.setProperty("--secondary", parsed.theme.secondaryColor || "#0D542B");
-                        root.style.setProperty("--textColor",parsed.theme.textColor || "#868686"  );
-                        root.style.setProperty("--buttonHoverColor",parsed.theme.buttonHoverColor || "#0D542B" )
+                        root.style.setProperty("--textColor", parsed.theme.textColor || "#868686");
+                        root.style.setProperty("--buttonHoverColor", parsed.theme.buttonHoverColor || "#0D542B")
                     }
                     return;
                 }
@@ -44,12 +44,12 @@ const Home = () => {
                 };
                 // Save in state
                 setContent(mergedData);
-                if(mergedData?.theme){
+                if (mergedData?.theme) {
                     const root = document.documentElement;
-                        root.style.setProperty("--primary", mergedData.theme.primaryColor || "#48AA71");
-                        root.style.setProperty("--secondary", mergedData.theme.secondaryColor || "#0D542B");
-                        root.style.setProperty("--textColor",mergedData.theme.textColor || "#868686"  );
-                        root.style.setProperty("--buttonHoverColor",mergedData.theme.buttonHoverColor || "#0D542B" )
+                    root.style.setProperty("--primary", mergedData.theme.primaryColor || "#48AA71");
+                    root.style.setProperty("--secondary", mergedData.theme.secondaryColor || "#0D542B");
+                    root.style.setProperty("--textColor", mergedData.theme.textColor || "#868686");
+                    root.style.setProperty("--buttonHoverColor", mergedData.theme.buttonHoverColor || "#0D542B")
                 }
                 console.log(mergedData)
                 // Save in sessionStorage
@@ -60,71 +60,62 @@ const Home = () => {
         };
         fetchData();
     }, []);
-    const faqs = [
-        {
-            question: 'How far is TDCP Patriata Resort located from Murree Expressway?',
-            answer: 'TDCP Patriata Resort is located just 6km from Murree Expressway.',
-        },
-        {
-            question: 'Is parking available at the resort?',
-            answer: 'Yes, the resort offers spacious and secure parking facilities for visitors.',
-        },
-        {
-            question: 'Are food and beverage options available onsite?',
-            answer: 'Absolutely! The resort features dining options and refreshment stalls to serve guests.',
-        },
-        {
-            question: 'What are the operating hours for the chairlift?',
-            answer: 'The chairlift typically operates from 9 AM to 6 PM, but timings may vary seasonally.',
-        },
-        {
-            question: 'Can I book tickets online?',
-            answer: 'Yes, tickets can be booked online through our official booking platform.',
-        },
-        {
-            question: 'Is TDCP Patriata suitable for children and elderly visitors?',
-            answer: 'Yes, the resort is family-friendly and includes accessible facilities.',
-        },
-    ];
+    const storedData = JSON.parse(sessionStorage.getItem("content") || "{}");
+    
+    const sectionsWithImages = useMemo(() => {
+        if (storedData.sections && storedData.images) {
+            return getSectionsWithImages(storedData.sections, storedData.images);
+        }
+        return [];
+    }, [storedData]);
+
+    // Example: find each section you need
+    const aboutUsContent = sectionsWithImages.find(sec => sec.id === "ABOUT US");
+    const exploreContent = sectionsWithImages.find(sec => sec.id === "EXPLORE THE CITIES OF PUNJAB WITH US");
+    const whyChooseContent = sectionsWithImages.find(sec => sec.id === "WHY CHOOSE US");
+    const onlineBookingsystem = sectionsWithImages.find(sec => sec.id === "ONLINE BOOKING SYSTEM");
+    const Faqs = sectionsWithImages.find(sec => sec.id === "faqs");
+    const ContactUs = sectionsWithImages.find(sec => sec.id === "contact us");
+    const reviews =sectionsWithImages.find(sec => sec.id === "reviews");
+    const services =sectionsWithImages.find(sec => sec.id === "OUR SERVICES");
+
     return (
         <>
             <Hero />
-            {/* ---------------2 Section---------------- */}
+            {/* ---------------About Us Section---------------- */}
             <section className="relative bg-white pt-28 pb-40 md:pt-44 md:pb-28 ">
                 {/* Content container - above the image */}
                 <div className="relative container md:pb-28 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-10 items-start">
 
                     {/* Column 1: About us */}
                     <div>
-                        <h2 className="subheading mb-2">About Us</h2>
+                        <h2 className="subheading mb-2">{aboutUsContent?.id || "ABOUT US"}</h2>
                         <p className="main_heading leading-snug md:w-[80%]">
-                            Your Gateway to the Skies of Murree
+                            {aboutUsContent?.heading || "Your Gateway to the Skies of Murree"}
                         </p>
                     </div>
 
                     {/* Column 2: Description + List */}
                     <div>
                         <p className="smallText mb-6">
-                            Located in the scenic hills of Murree, Patriata Chairlift is one of Pakistan’s most popular and picturesque tourist attractions. Operated under the Tourism Development Corporation of Punjab (TDCP), the chairlift offers a safe, comfortable, and unforgettable ride through pine-covered slopes and misty valleys. Designed to provide a peaceful escape into nature.
+                            {aboutUsContent?.paragraph || "Located in the scenic hills of Murree, Patriata Chairlift is one of Pakistan’s most popular and picturesque tourist attractions. Operated under the Tourism Development Corporation of Punjab (TDCP), the chairlift offers a safe, comfortable, and unforgettable ride through pine-covered slopes and misty valleys. Designed to provide a peaceful escape into nature."}
                         </p>
-
-                        <ul className="space-y-4">
-                            {[
-                                'Scenic Heights, Seamless Journeys',
-                                'Operated by TDCP for Safe & Memorable Tourism',
-                            ].map((item, i) => (
-                                <li key={i} className="flex items-center gap-3">
-                                    <img src={img2} alt="" className="w-10 h-10 mt-1" />
-                                    <span className="smallText">{item}</span>
-                                </li>
-                            ))}
-                        </ul>
+                        {aboutUsContent?.highlights?.length > 0 && (
+                            <ul className="space-y-4">
+                                {aboutUsContent?.highlights.map((item, i) => (
+                                    <li key={i} className="flex items-center gap-3">
+                                        <img src={img2} alt="" className="w-10 h-10 mt-1" />
+                                        <span className="smallText">{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                 </div>
 
                 {/* Absolute full-width image at bottom */}
                 <img
-                    src={bottomImage}
+                    src={aboutUsContent?.image || bottomImage}
                     alt="About visual"
                     style={{
                         position: 'absolute',
@@ -137,67 +128,50 @@ const Home = () => {
                     }}
                 />
             </section>
-            {/* ---------------3 Section---------------- */}
+            {/* ---------------EXPLORE THE CITIES OF PUNJAB WITH US Section---------------- */}
             <section className="bg-[#F6F6F9] py-12 md:py-28">
                 <div className='container'>
                     {/* Centered Headings */}
                     <div className="text-center max-w-3xl mx-auto mb-10">
                         <p className="subheading mb-2">
-                            EXPLORE THE CITIES OF PUNJAB WITH US
+                            {exploreContent?.id || "EXPLORE THE CITIES OF PUNJAB WITH US"}
                         </p>
                         <h2 className="main_heading">
-                            Patriata Chair lift & Cable car Fare
+                            {exploreContent?.heading || "Patriata Chair lift & Cable car Fare"}
                         </h2>
                     </div>
-
-                    {/* Container Wrapper */}
                     <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-                        {/* Card 1 - General */}
-                        <div className="border border-gray-300 rounded-2xl bg-white p-10 shadow-sm">
-                            <h3 className="subheading-bold mb-4">General</h3>
-                            <p className="smallText  mb-5">
-                                Book your tickets at multiple location with TDCP.
-                                Providing tourist information, Facilitation and Publications to Tourists
-                            </p>
-                            <p className="text-xl font-normal text-[#333] mb-4 flex items-start gap-1">
-                                <span className="text-sm mt-2">Rs  {" "}</span>
-                                <span className="text-7xl secondary font-normal unna-regular">{" "}  1000    </span>
-                                <span className="text-lg mt-6">  {"  "}   /per person</span>
-                            </p>
+                        {exploreContent?.tickets.map((ticket, i) => (
+                            <div
+                                key={i}
+                                className="border border-gray-300 rounded-2xl bg-white p-10 shadow-sm"
+                            >
+                                <h3 className="subheading-bold mb-4">{ticket.title}</h3>
+                                <p className="smallText mb-5">{ticket.description}</p>
 
-                            <button className=" w-full text-white px-6 py-3 mb-5">
-                                Get Started
-                            </button>
-                            <ul className="list-disc smallText  pl-5 space-y-1">
-                                <li>Ticket is Valid for the date of purchase only.</li>
-                                <li>Ticket is for round trip &amp; non-refundable.</li>
-                            </ul>
-                        </div>
+                                <p className="text-xl font-normal text-[#333] mb-4 flex items-start gap-1">
+                                    <span className="text-sm mt-2">{ticket.price.split(" ")[0]}{" "}</span>
+                                    <span className="text-7xl secondary font-normal unna-regular">
+                                        {" "}{ticket.price.split(" ")[1]}
+                                    </span>
+                                    <span className="text-lg mt-6">/per person</span>
+                                </p>
 
-                        {/* Card 2 - Executive */}
-                        <div className="border border-gray-300 rounded-2xl bg-white p-10 shadow-sm">
-                            <h3 className="subheading-bold mb-4">Executive</h3>
-                            <p className="smallText  mb-5">
-                                Book your tickets at multiple location with TDCP.<br />
-                                Providing tourist information, Facilitation and Publications to Tourists
-                            </p>
-                            <p className="text-xl font-normal text-[#333] mb-4 flex items-start gap-1">
-                                <span className="text-sm mt-2">Rs  {" "}</span>
-                                <span className="text-7xl secondary font-normal unna-regular">{" "}  1000    </span>
-                                <span className="text-lg mt-6">  {"  "}   /per person</span>
-                            </p>
-                            <button className=" w-full text-white px-6 py-3 mb-4">
-                                Get Started
-                            </button>
-                            <ul className="list-disc smallText  pl-5 space-y-1">
-                                <li>Ticket is Valid for the date of purchase only.</li>
-                                <li>Ticket is for round trip &amp; non-refundable.</li>
-                            </ul>
-                        </div>
+                                <button className="w-full text-white px-6 py-3 mb-5">
+                                    {ticket.buttonText}
+                                </button>
+
+                                <ul className="list-disc smallText pl-5 space-y-1">
+                                    {exploreContent?.rules.map((rule, idx) => (
+                                        <li key={idx}>{rule}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
-            {/* ---------------4 Section---------------- */}
+            {/* ---------------WHY CHOOSE US Section---------------- */}
             <section className="bg-white py-12 md:py-28">
                 <div className="container space-y-8 md:space-y-16">
 
@@ -206,22 +180,22 @@ const Home = () => {
 
                         {/* Left Column - Text Content */}
                         <div>
-                            <h2 className="subheading  mb-2">Why Choose Us</h2>
+                            <h2 className="subheading  mb-2">{whyChooseContent?.id || "Why Choose Us"}</h2>
                             <p className="main_heading mb-4">
-                                A Majestic Journey above the Mountains
+                                {whyChooseContent?.heading || "A Majestic Journey above the Mountains"}
                             </p>
                             <p className="smallText text-gray-700">
-                                TDCP offers a virtual journey to discover the enchanting paradise of Patriata Murree.
+                                {whyChooseContent?.paragraph || `TDCP offers a virtual journey to discover the enchanting paradise of Patriata Murree.
                                 Patriata Chair Lift is a popular tourist attraction located in the beautiful hill station
                                 of Patriata in the Punjab province of Pakistan. The chair lift is one of the longest and
-                                highest in the country, offering breathtaking views of the surrounding mountains and valleys.
+                                highest in the country, offering breathtaking views of the surrounding mountains and valleys`}
                             </p>
                         </div>
 
                         {/* Right Column - Image */}
                         <div>
                             <img
-                                src={chooseImg}
+                                src={whyChooseContent?.image || chooseImg}
                                 alt="Why Choose Us"
                                 className="w-full h-[25rem] rounded-xl shadow-md object-cover"
                             />
@@ -240,137 +214,106 @@ const Home = () => {
                             />
                             <div className="absolute inset-0 bg-black bg-opacity-50 rounded-xl flex flex-col items-center justify-center text-center p-6">
                                 <p className="smallText mb-4 text-white" style={{ color: "white" }}>
-                                    Embark on Your Scenic Ride to the Clouds Today
+                                    {whyChooseContent?.downloadPamphlet?.text || "Embark on Your Scenic Ride to the Clouds Today"}
                                 </p>
                                 <button className="bg-white secondary px-6 py-3 hover:text-white border border-white">
-                                    Download Pamphlet
+                                    {whyChooseContent?.downloadPamphlet?.btn || "Download Pamphlet"}
                                 </button>
                             </div>
                         </div>
 
-
                         {/* Column 2: Stats blocks */}
                         <div className="grid grid-cols-3 gap-4 text-center">
-                            {/* Block 1 */}
-                            <div>
-                                <p className="text-5xl mb-2 md:mb-0 md:text-7xl unna-regular primary">25+</p>
-                                <p className="smallText mt-1">Total Cable Cars</p>
-                            </div>
-
-                            {/* Block 2 */}
-                            <div>
-                                <p className="text-5xl mb-2 md:text-7xl md:mb-0  unna-regular  primary">60+</p>
-                                <p className="smallText mt-1">Chairlifts</p>
-                            </div>
-
-                            {/* Block 3 */}
-                            <div>
-                                <p className="text-5xl mb-2 md:text-7xl md:mb-0  unna-regular primary">500+</p>
-                                <p className="smallText mt-1">Visitors annually</p>
-                            </div>
+                            {whyChooseContent?.analytics?.map((item, i) => (
+                                <div key={i}>
+                                    <p className="text-5xl mb-2 md:mb-0 md:text-7xl unna-regular primary">
+                                        {item.value}
+                                    </p>
+                                    <p className="smallText mt-1">{item.label}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
 
                 </div>
             </section>
-            {/* ---------------5 Section---------------- */}
+            {/* ---------------ONLINE BOOKING SYSTEM Section---------------- */}
             <section className="bg-[#F6F6F9] py-12 md:py-28">
                 <div className="container">
 
                     {/* Row 1: Heading + Button */}
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4">
                         <div>
-                            <p className="subheading mb-2">ONLINE BOOKING SYSTEM</p>
-                            <h2 className="main_heading">Plan Your Visit and Enjoy</h2>
+                            <p className="subheading mb-2">{onlineBookingsystem?.id || "ONLINE BOOKING SYSTEM"}</p>
+                            <h2 className="main_heading">{onlineBookingsystem?.heading || "Plan Your Visit and Enjoy"}</h2>
                         </div>
                         <button className="text-white px-6 py-3">
-                            Book Now
+                            {onlineBookingsystem?.buttonText || "Book Now"}
                         </button>
                     </div>
 
                     {/* Row 2: 3 Step Boxes */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+                        {onlineBookingsystem?.steps?.map((step, index) => (
+                            <React.Fragment key={index}>
+                                {/* Step */}
+                                <div className="p-6 text-center relative">
+                                    <div className="primary-bg text-white w-12 h-12 flex items-center justify-center rounded-xl text-sm mx-auto mb-4">
+                                        {step.stepNumber}
+                                    </div>
+                                    <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
+                                    <p className="text-sm text-gray-600 md:px-[3.5rem]">{step.description}</p>
+                                </div>
 
-                        {/* Step 1 */}
-                        <div className=" p-6 text-center relative">
-                            <div className="primary-bg  text-white w-12 h-12 flex items-center justify-center rounded-xl text-sm mx-auto mb-4">
-                                01
-                            </div>
-                            <h3 className="text-lg font-semibold mb-2">Select Your Location</h3>
-                            <p className="text-sm text-gray-600 md:px-[3.5rem]">
-                                Select your desired location and service below & book your ticket at your preferred time.
-                            </p>
-                        </div>
-
-                        {/* Arrow (between step 1 and 2) */}
-                        <div className="hidden md:flex absolute top-1/2 left-1/3 transform -translate-y-1/2">
-                            <div className="bg-white  w-10 h-10 rounded-full flex items-center justify-center ">
-                                <FaArrowRight size={16} className='primary' />
-                            </div>
-                        </div>
-
-                        {/* Step 2 */}
-                        <div className="p-6 text-center relative">
-                            <div className="primary-bg  text-white w-12 h-12 flex items-center justify-center rounded-xl text-sm mx-auto mb-4">
-                                02
-                            </div>
-                            <h3 className="text-lg font-semibold mb-2">Select Your Desired Slot</h3>
-                            <p className="text-sm text-gray-600 md:px-[3.5rem]">
-                                Book your Tickets and Arrive at your picked location.
-                            </p>
-                        </div>
-
-                        {/* Arrow (between step 2 and 3) */}
-                        <div className="hidden md:flex absolute top-1/2 left-2/3 transform -translate-y-1/2">
-                            <div className="bg-white w-10 h-10 rounded-full flex items-center justify-center">
-                                <FaArrowRight size={16} className='primary' />
-                            </div>
-                        </div>
-
-                        {/* Step 3 */}
-                        <div className=" p-6 text-center">
-                            <div className="primary-bg text-white w-12 h-12 flex items-center justify-center rounded-xl text-sm mx-auto mb-4">
-                                03
-                            </div>
-                            <h3 className="text-lg font-semibold mb-2">Book Your E-Ticketing</h3>
-                            <p className="text-sm text-gray-600 md:px-[3.5rem]">
-                                Show your e-tickets and Enjoy the Ride! Confirmation email also available.
-                            </p>
-                        </div>
+                                {/* Arrow between steps (desktop only) */}
+                                {/* 0 < 2 || 1 < 2  */}
+                                {index < onlineBookingsystem?.steps.length - 1 && (
+                                    <div
+                                        className={`hidden md:flex absolute top-1/2 ${index === 0 ? "left-1/3" : index === 1 ? "left-2/3" : ""
+                                            } transform -translate-y-1/2`}
+                                    >
+                                        <div className="bg-white w-10 h-10 rounded-full flex items-center justify-center">
+                                            <FaArrowRight size={16} className="primary" />
+                                        </div>
+                                    </div>
+                                )}
+                            </React.Fragment>
+                        ))}
                     </div>
                 </div>
             </section>
-            <OurServices />
-            <Reviews />
+            <OurServices services={services}/>
+            <Reviews  reviews={reviews}/>
+            {/* ---------------Faqs SYSTEM Section---------------- */}
             <section className="bg-white py-12 md:py-28">
                 <div className='container'>
                     {/* Heading */}
                     <div className="text-center max-w-2xl mx-auto mb-12">
                         <h2 className="main_heading mb-1">
-                            Frequently Asked Questions
+                            {Faqs?.heading || "Frequently Asked Questions"}
                         </h2>
                         <p className="subheading mb-2">
-                            Still feeling unsure? More questions? These might help!
+                             {Faqs?.text || "Still feeling unsure? More questions? These might help!"}
                         </p>
                     </div>
 
                     {/* FAQ Grid */}
                     <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-8">
-                        {faqs.map((faq, index) => (
+                        {Faqs?.Faqs.map((faq, index) => (
                             <div key={index} className="py-3 px-0 md:p-6">
-                                <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-2">{faq.question}</h3>
-                                <p className="smallText">{faq.answer}</p>
+                                <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-2">{faq.title}</h3>
+                                <p className="smallText">{faq.description}</p>
                             </div>
                         ))}
                     </div>
                 </div>
 
             </section>
-            {/* ---------------Last Section---------------- */}
+            {/* ---------------Contact Us Section---------------- */}
             <section
                 className="relative bg-cover bg-center bg-no-repeat text-white"
                 style={{
-                    backgroundImage: `url(${img1})`,
+                    backgroundImage: `url(${ContactUs?.image || img1})`,
                     minHeight: '400px',
                 }}
             >
@@ -378,17 +321,17 @@ const Home = () => {
 
                 <div className="relative z-10 max-w-3xl mx-auto text-center px-6 py-20">
                     <h2 className="main_heading my-4">
-                        Ready to Soar Through the Hills?
+                        {ContactUs?.heading ||  "Ready to Soar Through the Hills?"}
                     </h2>
                     <p className="smallText mb-6" style={{ color: "white" }}>
-                        Hop on the Patriata Chairlift and glide above breathtaking landscapes—your sky-high journey starts now.
+                         {ContactUs?.paragraph ||  "Hop on the Patriata Chairlift and glide above breathtaking landscapes—your sky-high journey starts now."}
                     </p>
                     <div className="flex justify-center gap-4 flex-wrap">
                         <button className="text-white px-6 py-3">
-                            Book Now
+                             {ContactUs?.buttons?.[0]?.btn ||  "Book Now"}
                         </button>
                         <button className="bg-white secondary hover:text-white transition px-6 py-3  border border-white">
-                            Contact Us
+                             {ContactUs?.buttons?.[1]?.btn ||  "Contact Us"}
                         </button>
                     </div>
                 </div>

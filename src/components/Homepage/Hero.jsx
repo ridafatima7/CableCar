@@ -35,7 +35,7 @@ const Hero = () => {
         }
     }
 
-    console.log(heroContent);
+    console.log("hero Content ", heroContent);
     let firstPart = "";
     let secondPart = "";
 

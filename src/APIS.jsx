@@ -1,6 +1,21 @@
 import axios from "axios";
 const BASE_URL = "https://tdcp-eticketing-apis.laaftogether.com/api";
 export const IMG_URL = "";
+
+//---------- getSectionData-----------
+export const getSectionsWithImages = (sections = [], images = []) => {
+  return sections.map(section => {
+    const matchImage = images.find(img =>
+      img.name.toLowerCase().startsWith(section.id.replace(/\s+/g, "_").toLowerCase())
+    );
+
+    return {
+      ...section,
+      image: matchImage ? matchImage.path : null
+    };
+  });
+};
+
 //---------- get Content-----------
 export const getContent = async () => {
   const url =`${BASE_URL}/content`
