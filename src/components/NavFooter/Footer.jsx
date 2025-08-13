@@ -16,7 +16,6 @@ const Footer = () => {
       ...footerSection,
       logo: mainLogo?.path || null,
     };
-    console.log("footer details", footerDetails);
   }
   const socialIcons = {
     facebook: <FaFacebookF />,

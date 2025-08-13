@@ -2,9 +2,11 @@
 import { FaTimes } from 'react-icons/fa';
 import { useState } from 'react';
 import Stepper from "./Stepper"
+import { createBooking } from '../../APIS';
 export const CheckoutModal = ({  show, onClose, openThankYou  }) => {
     const [selectedPayment, setSelectedPayment] = useState("bop");
     const [showThankYou, setShowThankYou] = useState(false);
+    
     if (!show) return null;
 
     return (
@@ -40,13 +42,13 @@ export const CheckoutModal = ({  show, onClose, openThankYou  }) => {
                             <h3 className="mb-6 text-lg md:text-xl font-semibold">Let us know who you are</h3>
 
                             <form className="space-y-4">
-                                <input type="text" placeholder="Enter your full name" className="w-full px-4 py-4 smallText border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500" />
-                                <input type="email" placeholder="Enter your email" className="w-full px-4 py-4 smallText border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500" />
+                                <input type="text" placeholder="Enter your full name" className="w-full px-4 py-4 smallText border outline-none border-gray-300 rounded-md focus:ring-1 focus:ring-green-500" />
+                                <input type="email" placeholder="Enter your email" className="w-full px-4 py-4 smallText border outline-none border-gray-300 rounded-md focus:ring-1 focus:ring-green-500" />
                                 <div className="flex flex-col md:flex-row gap-4">
-                                    <input type="text" placeholder="City" className="w-full px-4 py-4 smallText border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500" />
-                                    <input type="text" placeholder="03XXXXXXXXX" className="w-full px-4 py-4 smallText border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500" />
+                                    <input type="text" placeholder="City" className="w-full px-4 py-4 smallText border border-gray-300 outline-none rounded-md focus:ring-1 focus:ring-green-500" />
+                                    <input type="text" placeholder="03XXXXXXXXX" className="w-full px-4 py-4 smallText border border-gray-300 outline-none  rounded-md focus:ring-1 focus:ring-green-500" />
                                 </div>
-                                <input type="text" placeholder="xxxxx-xxxxxxx-x" className="w-full px-4 py-4 smallText border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500" />
+                                <input type="text" placeholder="xxxxx-xxxxxxx-x" className="w-full px-4 py-4 smallText border outline-none border-gray-300 rounded-md focus:ring-1 focus:ring-green-500" />
 
                                 <p className="smallText mt-2">
                                     We’ll send your confirmation to this email address. <br />

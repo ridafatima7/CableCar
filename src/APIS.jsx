@@ -1,6 +1,5 @@
 import axios from "axios";
 const BASE_URL = "https://tdcp-eticketing-apis.laaftogether.com/api";
-export const IMG_URL = "";
 
 //---------- getSectionData-----------
 export const getSectionsWithImages = (sections = [], images = []) => {
@@ -26,3 +25,14 @@ export const getContent = async () => {
     console.error("Error fetching content:", error);
   }
 };
+
+// --------Create Booking----------
+export const createBooking=async(data)=>{
+  const url=`${BASE_URL}/booking`;
+  try{
+    const response=await axios.post(url,data);
+    return response.data;
+  }catch(error){
+    console.error("Error creating booking",error)
+  }
+}
