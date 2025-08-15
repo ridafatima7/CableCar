@@ -169,7 +169,9 @@ export const OurServices = ({services}) => {
                     }}
                     modules={[Pagination,Autoplay]}
                     onSwiper={(swiper) => (swiperRef.current = swiper)}
+                    autoplay={{ delay: 3000, disableOnInteraction: false }}
                     onSlideChange={handleSlideChange}
+                    loop={true}
                 >
                     {services?.services.map((service, index) => (
                         <SwiperSlide key={index}>
