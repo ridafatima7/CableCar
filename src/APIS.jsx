@@ -36,3 +36,14 @@ export const createBooking=async(data)=>{
     console.error("Error creating booking",error)
   }
 }
+
+//---------- get Tickets-----------
+export const getTickets = async () => {
+  const url =`${BASE_URL}/ticket?route_id=13`;
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching content:", error);
+  }
+};

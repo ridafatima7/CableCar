@@ -8,9 +8,16 @@ import chooseImg1 from "../../assets/img1.jpg";
 import { FaArrowRight } from 'react-icons/fa';
 import Reviews, { OurServices } from './Carousel';
 import Hero from './Hero';
-import { getContent, getSectionsWithImages } from '../../APIS';
+import { getContent, getSectionsWithImages, getTickets } from '../../APIS';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/autoplay";
+import { Link } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
 const Home = () => {
     const [content, setContent] = useState(null);
+    const [tickets, setTickets] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -60,8 +67,18 @@ const Home = () => {
         };
         fetchData();
     }, []);
+    useEffect(() => {
+        const fetchTickets = async () => {
+            const data = await getTickets();
+            if (data) {
+                setTickets(data.data);
+                console.log("Tickets data is ", data.data)
+            }
+        };
+        fetchTickets();
+    }, []);
     const storedData = JSON.parse(sessionStorage.getItem("content") || "{}");
-    
+
     const sectionsWithImages = useMemo(() => {
         if (storedData.sections && storedData.images) {
             return getSectionsWithImages(storedData.sections, storedData.images);
@@ -76,14 +93,14 @@ const Home = () => {
     const onlineBookingsystem = sectionsWithImages.find(sec => sec.id === "ONLINE BOOKING SYSTEM");
     const Faqs = sectionsWithImages.find(sec => sec.id === "faqs");
     const ContactUs = sectionsWithImages.find(sec => sec.id === "contact us");
-    const reviews =sectionsWithImages.find(sec => sec.id === "reviews");
-    const services =sectionsWithImages.find(sec => sec.id === "OUR SERVICES");
+    const reviews = sectionsWithImages.find(sec => sec.id === "reviews");
+    const services = sectionsWithImages.find(sec => sec.id === "OUR SERVICES");
 
     return (
         <>
             <Hero />
             {/* ---------------About Us Section---------------- */}
-            <section className="relative bg-white pt-28 pb-40 md:pt-44 md:pb-28 ">
+            <section className="relative bg-white pt-28 pb-40 md:pt-44 md:pb-28 " id="ABOUTUS">
                 {/* Content container - above the image */}
                 <div className="relative container md:pb-28 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-10 items-start">
 
@@ -129,7 +146,7 @@ const Home = () => {
                 />
             </section>
             {/* ---------------EXPLORE THE CITIES OF PUNJAB WITH US Section---------------- */}
-            <section className="bg-[#F6F6F9] py-12 md:py-28">
+            <section className="bg-[#F6F6F9] py-12 md:py-28" id="PACKAGES" >
                 <div className='container'>
                     {/* Centered Headings */}
                     <div className="text-center max-w-3xl mx-auto mb-10">
@@ -140,39 +157,57 @@ const Home = () => {
                             {exploreContent?.heading || "Patriata Chair lift & Cable car Fare"}
                         </h2>
                     </div>
-                    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-                        {exploreContent?.tickets.map((ticket, i) => (
-                            <div
-                                key={i}
-                                className="border border-gray-300 rounded-2xl bg-white p-10 shadow-sm"
-                            >
-                                <h3 className="subheading-bold mb-4">{ticket.title}</h3>
-                                <p className="smallText mb-5">{ticket.description}</p>
+                    <div className="max-w-5xl mx-auto">
+                        <Swiper
+                            modules={[Autoplay]}
+                            autoplay={{ delay: 3000, disableOnInteraction: false }}
+                            spaceBetween={20}
+                            breakpoints={{
+                                0: { slidesPerView: 1 },    // mobile
+                                768: { slidesPerView: 2 },  // tablet & desktop
+                            }}
+                            loop={true}
+                        >
+                            {tickets?.map((ticket, i) => (
+                                <SwiperSlide key={i}>
+                                    <div className="border border-gray-300 rounded-2xl bg-white p-10 shadow-sm">
+                                        <h3 className="subheading-bold mb-4">{ticket.description}</h3>
+                                        <p className="smallText mb-5">Book your tickets for various destinations with TDCP – offering travel information, assistance, and publications for tourists.</p>
 
-                                <p className="text-xl font-normal text-[#333] mb-4 flex items-start gap-1">
-                                    <span className="text-sm mt-2">{ticket.price.split(" ")[0]}{" "}</span>
-                                    <span className="text-7xl secondary font-normal unna-regular">
-                                        {" "}{ticket.price.split(" ")[1]}
-                                    </span>
-                                    <span className="text-lg mt-6">/per person</span>
-                                </p>
+                                        <p className="text-xl font-normal text-[#333] mb-4 flex items-start gap-1">
+                                            <span className="text-sm mt-2">Rs {" "}</span>
+                                            <span className="text-7xl secondary font-normal unna-regular">
+                                                {" "}{ticket.price}
+                                            </span>
+                                            <span className="text-lg mt-6">/per person</span>
+                                        </p>
 
-                                <button className="w-full text-white px-6 py-3 mb-5">
-                                    {ticket.buttonText}
-                                </button>
+                                        <ScrollLink
+                                            to="HeroSection"
+                                            smooth={true}
+                                            duration={500}
+                                            offset={-50} // optional
+                                            className="block"
+                                        >
+                                            <button className="w-full text-white px-6 py-3 mb-5">
+                                                Get Started
+                                            </button>
+                                        </ScrollLink>
 
-                                <ul className="list-disc smallText pl-5 space-y-1">
-                                    {exploreContent?.rules.map((rule, idx) => (
-                                        <li key={idx}>{rule}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
+                                        <ul className="list-disc smallText pl-5 space-y-1">
+                                            {exploreContent?.rules.map((rule, idx) => (
+                                                <li key={idx}>{rule}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
                     </div>
                 </div>
-            </section>
+            </section >
             {/* ---------------WHY CHOOSE US Section---------------- */}
-            <section className="bg-white py-12 md:py-28">
+            < section className="bg-white py-12 md:py-28" id="SERVICES">
                 <div className="container space-y-8 md:space-y-16">
 
                     {/* Row 1 */}
@@ -236,9 +271,9 @@ const Home = () => {
                     </div>
 
                 </div>
-            </section>
+            </section >
             {/* ---------------ONLINE BOOKING SYSTEM Section---------------- */}
-            <section className="bg-[#F6F6F9] py-12 md:py-28">
+            < section className="bg-[#F6F6F9] py-12 md:py-28" >
                 <div className="container">
 
                     {/* Row 1: Heading + Button */}
@@ -272,7 +307,7 @@ const Home = () => {
                                         className={`hidden md:flex absolute top-1/2 ${index === 0 ? "left-1/3" : index === 1 ? "left-2/3" : ""
                                             } transform -translate-y-1/2`}
                                     >
-                                        <div className="bg-white w-10 h-10 rounded-full flex items-center justify-center">
+                                        <div className="bg-white w-10 h-10 rounded-full flex border border-lg border-[#48AA71] items-center justify-center">
                                             <FaArrowRight size={16} className="primary" />
                                         </div>
                                     </div>
@@ -281,9 +316,9 @@ const Home = () => {
                         ))}
                     </div>
                 </div>
-            </section>
-            <OurServices services={services}/>
-            <Reviews  reviews={reviews}/>
+            </section >
+            <OurServices services={services} />
+            <Reviews reviews={reviews} />
             {/* ---------------Faqs SYSTEM Section---------------- */}
             <section className="bg-white py-12 md:py-28">
                 <div className='container'>
@@ -293,7 +328,7 @@ const Home = () => {
                             {Faqs?.heading || "Frequently Asked Questions"}
                         </h2>
                         <p className="subheading mb-2">
-                             {Faqs?.text || "Still feeling unsure? More questions? These might help!"}
+                            {Faqs?.text || "Still feeling unsure? More questions? These might help!"}
                         </p>
                     </div>
 
@@ -316,23 +351,30 @@ const Home = () => {
                     backgroundImage: `url(${ContactUs?.image || img1})`,
                     minHeight: '400px',
                 }}
+                id="CONTACTUS"
             >
                 <div className="absolute inset-0 bg-black/50" />
 
-                <div className="relative z-10 max-w-3xl mx-auto text-center px-6 py-20">
+                <div className="relative max-w-3xl mx-auto text-center px-6 py-20 z-auto">
                     <h2 className="main_heading my-4">
-                        {ContactUs?.heading ||  "Ready to Soar Through the Hills?"}
+                        {ContactUs?.heading || "Ready to Soar Through the Hills?"}
                     </h2>
                     <p className="smallText mb-6" style={{ color: "white" }}>
-                         {ContactUs?.paragraph ||  "Hop on the Patriata Chairlift and glide above breathtaking landscapes—your sky-high journey starts now."}
+                        {ContactUs?.paragraph || "Hop on the Patriata Chairlift and glide above breathtaking landscapes—your sky-high journey starts now."}
                     </p>
                     <div className="flex justify-center gap-4 flex-wrap">
-                        <button className="text-white px-6 py-3">
-                             {ContactUs?.buttons?.[0]?.btn ||  "Book Now"}
-                        </button>
-                        <button className="bg-white secondary hover:text-white transition px-6 py-3  border border-white">
-                             {ContactUs?.buttons?.[1]?.btn ||  "Contact Us"}
-                        </button>
+                        <ScrollLink
+                            to="HeroSection"
+                            smooth={true}
+                            duration={500}
+                            offset={-50} // optional
+                            className="block"
+                        ><button className="text-white px-6 py-3">
+                                {ContactUs?.buttons?.[0]?.btn || "Book Now"}
+                            </button></ScrollLink>
+                        {/* <button className="bg-white secondary hover:text-white transition px-6 py-3  border border-white">
+                            {ContactUs?.buttons?.[1]?.btn || "Contact Us"}
+                        </button> */}
                     </div>
                 </div>
             </section>

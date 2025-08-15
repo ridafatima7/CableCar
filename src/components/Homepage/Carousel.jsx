@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { FaStar, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import service_img from "../../assets/busService.jpg";
-import { Pagination } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 const Reviews = ({reviews}) => {
     const swiperRef = useRef(null);
     // const reviews = [
@@ -167,7 +167,7 @@ export const OurServices = ({services}) => {
                         768: { slidesPerView: 2 },
                         1024: { slidesPerView: 3 },
                     }}
-                    modules={[Pagination]}
+                    modules={[Pagination,Autoplay]}
                     onSwiper={(swiper) => (swiperRef.current = swiper)}
                     onSlideChange={handleSlideChange}
                 >

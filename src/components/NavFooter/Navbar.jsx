@@ -9,14 +9,14 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const storedData = JSON.parse(sessionStorage.getItem("content") || "{}");
-  let navbarDetails=null;
+  let navbarDetails = null;
   if (storedData.sections && storedData.images) {
     // Find the navbar section
     const navbarSection = storedData?.sections?.find(sec => sec.id === "navbar");
     const mainLogo = storedData?.images?.find(img => img.name === "logo");
     // Step 3: Get right logos images
     const rightSideLogos = storedData?.images?.filter(img => img.name === 'tdcp' || img.name === 'gop')
-     navbarDetails = {
+    navbarDetails = {
       ...navbarSection,
       logo: mainLogo.path || null,
       righSidelogos: rightSideLogos.map(img => img.path || null)
@@ -61,14 +61,14 @@ const Header = () => {
           style={{ color: scrolled ? '#494949' : '#ffffff' }}
         >
           {navbarDetails?.menus?.map((menu, index) => (
-            <Link
+            <a
               key={index}
-              to={menu.link}
+              href={`#${menu.label.replace(/\s+/g, '')}`} // remove spaces for id
               className="hover:text-[#DF8600] subheading-white"
               style={{ color: scrolled ? '#494949' : '#ffffff' }}
             >
               {menu.label}
-            </Link>
+            </a>
           ))}
         </nav>
 
@@ -115,14 +115,15 @@ const Header = () => {
           {/* Menu Links */}
           <div className="pt-[5rem] mt-30">
             {navbarDetails?.menus?.map((menu, index) => (
-              <Link
+              <a
                 key={index}
+                href={`#${menu.label.replace(/\s+/g, '')}`}
                 to={menu.link}
                 className={`block subheading-white ${index === 0 ? '' : 'pt-2'}`}
                 style={{ color: '#494949' }}
               >
                 {menu.label}
-              </Link>
+              </a>
             ))}
           </div>
           {/* <Link to="/" className="block subheading-white pt-[5rem] mt-30" style={{ color: '#494949' }}>Home</Link>

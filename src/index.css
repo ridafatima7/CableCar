@@ -34,6 +34,7 @@ html,body, #App {
   background: #ffffff;
   font-family: "DM Sans", sans-serif;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 * {
   box-sizing: border-box;
@@ -62,7 +63,7 @@ html,body, #App {
 }
 .subheading{
   font-family: "Unna", serif;
-  color:var(--primary);
+  color:var(--secondary);
   font-size: 18px;
   font-style: normal;
   font-weight: normal;
