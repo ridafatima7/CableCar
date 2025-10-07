@@ -39,8 +39,8 @@ const Home = () => {
                 // Fetch from API
                 const data = await getContent();
                 if (!data) return;
-                const rawContent = data?.data?.contents?.[0]?.content;
-                const rawImages = data?.data?.contents?.[0]?.images;
+                const rawContent = data?.data?.contents?.[1]?.content;
+                const rawImages = data?.data?.contents?.[1]?.images;
                 // Parse JSON strings
                 const parsedContent = rawContent ? JSON.parse(rawContent) : {};
                 const parsedImages = rawImages ? JSON.parse(rawImages) : [];

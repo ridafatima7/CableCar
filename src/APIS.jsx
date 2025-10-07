@@ -17,7 +17,7 @@ export const getSectionsWithImages = (sections = [], images = []) => {
 
 //---------- get Content-----------
 export const getContent = async () => {
-  const url =`${BASE_URL}/content`
+  const url =`${BASE_URL}/content/1`
   try {
     const response = await axios.get(url);
     return response.data;
@@ -39,7 +39,7 @@ export const createBooking=async(data)=>{
 
 //---------- get Tickets-----------
 export const getTickets = async () => {
-  const url =`${BASE_URL}/ticket?route_id=13`;
+  const url =`${BASE_URL}/ticket?route_id=1`;
   try {
     const response = await axios.get(url);
     return response.data;
