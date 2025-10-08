@@ -39,12 +39,13 @@ const Home = () => {
                 // Fetch from API
                 const data = await getContent();
                 if (!data) return;
-                const rawContent = data?.data?.contents?.[1]?.content;
-                const rawImages = data?.data?.contents?.[1]?.images;
+                const rawContent = data?.data?.content;
+                const rawImages = data?.data?.images;
+                console.log(rawContent)
                 // Parse JSON strings
-                const parsedContent = rawContent ? JSON.parse(rawContent) : {};
-                const parsedImages = rawImages ? JSON.parse(rawImages) : [];
-
+                const parsedContent = typeof rawContent === "string" ? JSON.parse(rawContent) : rawContent;
+                const parsedImages = typeof rawImages === "string" ? JSON.parse(rawImages) : rawImages;
+                
                 const mergedData = {
                     ...parsedContent,
                     images: parsedImages,
