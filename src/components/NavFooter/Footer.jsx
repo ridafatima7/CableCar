@@ -7,14 +7,15 @@ const Footer = () => {
 
   let footerDetails = null;
 
-  if (storedData.sections && storedData.images) {
+  if (storedData.sections ) {
     // Find the navbar section
     const footerSection = storedData?.sections?.find(sec => sec.id === "footer");
-    const mainLogo = storedData?.images?.find(img => img.name === "logo");
+    const navbarSection = storedData?.sections?.find(sec => sec.id === "navbar");
+    // const mainLogo = storedData?.images?.find(img => img.name === "logo");
 
     footerDetails = {
       ...footerSection,
-      logo: mainLogo?.path || null,
+      logo: navbarSection || null,
     };
   }
   const socialIcons = {
@@ -29,7 +30,7 @@ const Footer = () => {
 
         {/* Column 1: Logo + Description + Social */}
         <div>
-          <img src={footerDetails?.logo || Logo} alt="Logo" className="w-[15rem] mb-4" />
+          <img src={footerDetails?.logo?.logos[0] || Logo} alt="Logo" className="w-[15rem] mb-4" />
           <p className="mb-4 smallText w-full md:w-[20rem]">
             {footerDetails?.leftSection?.text || "Explore the beauty of Pakistan with us. Experience comfort, adventure, and memories for a lifetime."}
           </p>

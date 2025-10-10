@@ -25,6 +25,7 @@ const Home = () => {
                 const savedData = sessionStorage.getItem("content");
                 if (savedData) {
                     const parsed = JSON.parse(savedData);
+                    console.log(parsed,parsed.theme.primaryColor)
                     setContent(parsed);
                     // Apply theme to :root
                     if (parsed?.theme) {
@@ -40,15 +41,15 @@ const Home = () => {
                 const data = await getContent();
                 if (!data) return;
                 const rawContent = data?.data?.content;
-                const rawImages = data?.data?.images;
+                // const rawImages = data?.data?.images;
                 console.log(rawContent)
                 // Parse JSON strings
                 const parsedContent = typeof rawContent === "string" ? JSON.parse(rawContent) : rawContent;
-                const parsedImages = typeof rawImages === "string" ? JSON.parse(rawImages) : rawImages;
+                // const parsedImages = typeof rawImages === "string" ? JSON.parse(rawImages) : rawImages;
                 
                 const mergedData = {
                     ...parsedContent,
-                    images: parsedImages,
+                    // images: parsedImages,
                 };
                 // Save in state
                 setContent(mergedData);
@@ -81,8 +82,8 @@ const Home = () => {
     const storedData = JSON.parse(sessionStorage.getItem("content") || "{}");
 
     const sectionsWithImages = useMemo(() => {
-        if (storedData.sections && storedData.images) {
-            return getSectionsWithImages(storedData.sections, storedData.images);
+        if (storedData.sections) {
+            return getSectionsWithImages(storedData.sections);
         }
         return [];
     }, [storedData]);
@@ -96,6 +97,7 @@ const Home = () => {
     const ContactUs = sectionsWithImages.find(sec => sec.id === "contact us");
     const reviews = sectionsWithImages.find(sec => sec.id === "reviews");
     const services = sectionsWithImages.find(sec => sec.id === "OUR SERVICES");
+    console.log(aboutUsContent?.image)
 
     return (
         <>
@@ -122,7 +124,10 @@ const Home = () => {
                             <ul className="space-y-4">
                                 {aboutUsContent?.highlights.map((item, i) => (
                                     <li key={i} className="flex items-center gap-3">
-                                        <img src={img2} alt="" className="w-10 h-10 mt-1" />
+                                        {/* <img src={img2} alt="" className="w-10 h-10 mt-1" /> */}
+                                        <div className="w-8 h-8 flex items-center justify-center rounded primary-bg text-white text-sm">
+                                            <FaCheck/>
+                                        </div>
                                         <span className="smallText">{item}</span>
                                     </li>
                                 ))}
@@ -195,11 +200,11 @@ const Home = () => {
                                             </button>
                                         </ScrollLink>
 
-                                        <ul className="list-disc smallText pl-5 space-y-1">
+                                        {/* <ul className="list-disc smallText pl-5 space-y-1">
                                             {exploreContent?.rules.map((rule, idx) => (
                                                 <li key={idx}>{rule}</li>
                                             ))}
-                                        </ul>
+                                        </ul> */}
                                     </div>
                                 </SwiperSlide>
                             ))}
@@ -231,7 +236,7 @@ const Home = () => {
                         {/* Right Column - Image */}
                         <div>
                             <img
-                                src={whyChooseContent?.image || chooseImg}
+                                src={whyChooseContent?.imageI1   || chooseImg}
                                 alt="Why Choose Us"
                                 className="w-full h-[25rem] rounded-xl shadow-md object-cover"
                             />
@@ -244,7 +249,7 @@ const Home = () => {
                         {/* Column 1: Image with text & button overlay */}
                         <div className="relative md:mx-20">
                             <img
-                                src={chooseImg1}
+                                src={ whyChooseContent?.imageI2   ||  chooseImg1}
                                 alt="Scenic Ride"
                                 className="w-full h-48 object-cover rounded-xl"
                             />
@@ -252,7 +257,7 @@ const Home = () => {
                                 <p className="smallText mb-4 text-white" style={{ color: "white" }}>
                                     {whyChooseContent?.downloadPamphlet?.text || "Embark on Your Scenic Ride to the Clouds Today"}
                                 </p>
-                                <button className="bg-white secondary px-6 py-3 hover:text-white border border-white">
+                                <button className="secondary px-6 py-3">
                                     {whyChooseContent?.downloadPamphlet?.btn || "Download Pamphlet"}
                                 </button>
                             </div>
@@ -308,7 +313,7 @@ const Home = () => {
                                         className={`hidden md:flex absolute top-1/2 ${index === 0 ? "left-1/3" : index === 1 ? "left-2/3" : ""
                                             } transform -translate-y-1/2`}
                                     >
-                                        <div className="bg-white w-10 h-10 rounded-full flex border border-lg border-[#48AA71] items-center justify-center">
+                                        <div className="bg-white w-10 h-10 rounded-full flex border-color items-center justify-center">
                                             <FaArrowRight size={16} className="primary" />
                                         </div>
                                     </div>

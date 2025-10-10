@@ -2,29 +2,54 @@ import axios from "axios";
 const BASE_URL = "https://tdcp-eticketing-apis.laaftogether.com/api";
 
 //---------- getSectionData-----------
-export const getSectionsWithImages = (sections = [], images = []) => {
+export const getSectionsWithImages = (sections = []) => {
   return sections.map(section => {
-    const matchImage = images.find(img =>
-      img.name.toLowerCase().startsWith(section.id.replace(/\s+/g, "_").toLowerCase())
-    );
 
     return {
       ...section,
-      image: matchImage ? matchImage.path : null
     };
   });
 };
+// Map each domain to its corresponding content ID
+const contentMap = {
+  "boating-service.vercel.app": 16,
+  "soft-wheel-train-tdcp.vercel.app": 18,
+  "sightseeing-five.vercel.app": 17,
+  "cable-car.vercel.app": 1,
+  "localhost": 17, 
+};
 
-//---------- get Content-----------
+// Function to detect the domain and get correct ID
+const getContentIdByDomain = () => {
+  const hostname = window.location.hostname;
+  return contentMap[hostname] || 1; 
+};
+
+// Fetch content dynamically based on domain
 export const getContent = async () => {
-  const url =`${BASE_URL}/content/1`
+  const contentId = getContentIdByDomain();
+  const url = `${BASE_URL}/content/${contentId}`;
+
   try {
     const response = await axios.get(url);
+    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error("Error fetching content:", error);
+    return null;
   }
 };
+
+//---------- get Content-----------
+// export const getContent = async () => {
+//   const url =`${BASE_URL}/content/17`
+//   try {
+//     const response = await axios.get(url);
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error fetching content:", error);
+//   }
+// };
 
 // --------Create Booking----------
 export const createBooking=async(data)=>{

@@ -25,19 +25,19 @@ const Hero = () => {
 
     let heroContent = null;
 
-    if (storedData.sections && storedData.images) {
+    if (storedData.sections) {
         // Find the hero section
         const heroSection = storedData.sections.find(sec => sec.id === "hero");
 
         if (heroSection) {
             // Find matching image by name (imageIdentifier + optional suffix)
-            const heroImage = storedData.images.find(img =>
-                img.name.startsWith('hero_img-1')
-            );
+            // const heroImage = storedData.images.find(img =>
+            //     img.name.startsWith('hero_img-1')
+            // );
             // Merge section + image
             heroContent = {
                 ...heroSection,
-                image: heroImage ? heroImage.path : null
+                // image: heroImage ? heroImage.path : null
             };
         }
     }
@@ -113,7 +113,7 @@ const Hero = () => {
     return (
         <section
             className="relative z-10 bg-cover bg-center bg-no-repeat min-h-[100vh] flex items-start  md:items-center"
-            style={{ backgroundImage: `url(${heroContent?.image || hero})` }}
+            style={{ backgroundImage: `url(${heroContent?.bgImg || hero})` }}
             id='HeroSection'
         >
             {/* Black Overlay */}
@@ -297,7 +297,7 @@ const Hero = () => {
                 {/* Book Now Button */}
                 <div className="flex   w-full md:w-auto">
                     <div className="w-full md:w-auto flex items-center justify-center">
-                        <button onClick={handleCheckout} className="w-full text-nowrap md:w-auto py-3 bg-green-600 hover:bg-green-700 text-white px-8 transition duration-300">
+                        <button onClick={handleCheckout} className="w-full text-nowrap md:w-auto py-3 heroBtn px-8 transition duration-300">
                             Book Now
                         </button>
                     </div>

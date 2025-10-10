@@ -10,16 +10,16 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const storedData = JSON.parse(sessionStorage.getItem("content") || "{}");
   let navbarDetails = null;
-  if (storedData.sections && storedData.images) {
+  if (storedData.sections) {
     // Find the navbar section
     const navbarSection = storedData?.sections?.find(sec => sec.id === "navbar");
-    const mainLogo = storedData?.images?.find(img => img.name === "logo");
+    // const mainLogo = storedData?.images?.find(img => img.name === "logo");
     // Step 3: Get right logos images
-    const rightSideLogos = storedData?.images?.filter(img => img.name === 'tdcp' || img.name === 'gop')
+    // const rightSideLogos = storedData?.images?.filter(img => img.name === 'tdcp' || img.name === 'gop')
     navbarDetails = {
       ...navbarSection,
-      logo: mainLogo.path || null,
-      righSidelogos: rightSideLogos.map(img => img.path || null)
+      // logo: mainLogo.path || null,
+      // righSidelogos: rightSideLogos.map(img => img.path || null)
     }
   }
   useEffect(() => {
@@ -40,7 +40,7 @@ const Header = () => {
         {/* Left: Logo */}
         <div className="flex items-center">
           <Link to="/">
-            <img src={navbarDetails?.logo || Logo} alt="Logo" className="w-[12rem]" />
+            <img src={navbarDetails?.logos[0] || Logo} alt="Logo" className="w-[12rem]" />
           </Link>
         </div>
 
@@ -74,8 +74,8 @@ const Header = () => {
 
         {/* Right: Extra Logos */}
         <div className="hidden md:flex space-x-4">
-          <img src={navbarDetails?.righSidelogos[0] || ExtraLogo1} alt="Extra 1" className="h-[4rem]" />
-          <img src={navbarDetails?.righSidelogos[1] || ExtraLogo2} alt="Extra 2" className="h-[4rem]" />
+          <img src={navbarDetails?.logos[1] || ExtraLogo1} alt="Extra 1" className="h-[4rem]" />
+          <img src={navbarDetails?.logos[2] || ExtraLogo2} alt="Extra 2" className="h-[4rem]" />
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -134,8 +134,8 @@ const Header = () => {
 
           {/* Logos */}
           <div className="flex space-x-4 pt-3">
-            <img src={navbarDetails?.righSidelogos[0] || ExtraLogo1} alt="Extra 1" className="h-[4rem]" />
-            <img src={navbarDetails?.righSidelogos[1] || ExtraLogo2} alt="Extra 2" className="h-[4.4rem]" />
+            <img src={navbarDetails?.logos[1] || ExtraLogo1} alt="Extra 1" className="h-[4rem]" />
+            <img src={navbarDetails?.logos[2] || ExtraLogo2} alt="Extra 2" className="h-[4.4rem]" />
           </div>
         </div>
       </>

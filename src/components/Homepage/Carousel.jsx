@@ -113,34 +113,7 @@ export default Reviews;
 export const OurServices = ({services}) => {
     const swiperRef = useRef(null);
     const [currentPage, setCurrentPage] = useState(0);
-    const [perView, setPerView] = useState(3); // Default for desktop
-
-    // const services = [
-    //     {
-    //         title: 'Bus Services',
-    //         description:
-    //             'Comfortable shuttle and bus services are available to transport visitors from Murree city and surrounding areas to the Patriata Chairlift base station.',
-    //         image: service,
-    //     },
-    //     {
-    //         title: 'Tourist Guidance',
-    //         description:
-    //             'Expert guides ensure tourists have safe, informative, and enjoyable experiences across all services.',
-    //         image: service,
-    //     },
-    //     {
-    //         title: 'Ticketing Support',
-    //         description:
-    //             'On-site and online ticketing support for quick, hassle-free access to your ride.',
-    //         image: service,
-    //     },
-    //     {
-    //         title: 'Support',
-    //         description:
-    //             'On-site and online ticketing support for quick, hassle-free access to your ride.',
-    //         image: service,
-    //     },
-    // ];
+    const [perView, setPerView] = useState(3); 
 
     const handleSlideChange = (swiper) => {
         const currentSlidesPerView = swiper.params.breakpoints
@@ -179,7 +152,7 @@ export const OurServices = ({services}) => {
                                 className="group relative rounded-xl overflow-hidden h-[360px] flex flex-col justify-end p-6 bg-cover bg-center text-center text-white"
                                 style={{ backgroundImage: `url(${service?.image || service_img})` }}
                             >
-                                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-all duration-300 z-0" />
+                                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/60 transition-all duration-300 z-0" />
                                 <div className="relative z-10">
                                     <h3 className="text-lg md:text-xl font-semibold text-white mb-2">
                                         {service.title}
@@ -188,7 +161,7 @@ export const OurServices = ({services}) => {
                                         {service.description}
                                     </p>
                                     <div className="h-0 overflow-hidden opacity-0 translate-y-4 group-hover:h-auto group-hover:opacity-100 group-hover:translate-y-0 group-hover:mt-4 transition-all duration-300 ease-in-out">
-                                        <button className="bg-green-600 text-white px-6 py-3 rounded-md shadow-md">
+                                        <button className=" px-6 py-3 rounded-md shadow-md">
                                             Learn More
                                         </button>
                                     </div>
