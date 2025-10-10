@@ -30,7 +30,7 @@ const Footer = () => {
 
         {/* Column 1: Logo + Description + Social */}
         <div>
-          <img src={footerDetails?.logo?.logos[0] || Logo} alt="Logo" className="w-[15rem] mb-4" />
+          <img src={footerDetails?.logo?.logos[0] || Logo} alt="Logo" className={`${hostname.includes("soft-wheel-train-tdcp.vercel.app") ? "w-[6rem] mb-4 " : "w-[15rem] mb-4"}`} />
           <p className="mb-4 smallText w-full md:w-[20rem]">
             {footerDetails?.leftSection?.text || "Explore the beauty of Pakistan with us. Experience comfort, adventure, and memories for a lifetime."}
           </p>
