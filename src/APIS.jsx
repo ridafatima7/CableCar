@@ -42,7 +42,7 @@ const contentMap = {
   "boating-service.vercel.app": 16,
   "soft-wheel-train-tdcp.vercel.app": 18,
   "sightseeing-green.vercel.app": 17,
-  "cable-car.vercel.app": 1,
+  "cable-car.vercel.app": 19,
   "localhost": 17, 
 };
 
