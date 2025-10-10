@@ -13,17 +13,17 @@ export const getSectionsWithImages = (sections = []) => {
 export const domainConfig = {
   "cable-car.vercel.app": {
     title: "Cable Car",
-    favicon: "/Logo.png",
+    favicon: "/tdcp.png",
     logoIndex: 0, 
   },
   "boating-service.vercel.app": {
     title: "Boating Service",
-    favicon: "/boating.png",
+    favicon: "/tdcp.png",
     logoIndex: 0,
   },
   "sightseeing-green.vercel.app": {
     title: "Sightseeing",
-    favicon: "/sightseeing.png",
+    favicon: "/tdcp.png",
     logoIndex: 0,
   },
   "soft-wheel-train-tdcp.vercel.app": {
@@ -32,7 +32,7 @@ export const domainConfig = {
     logoIndex: 0,
   },
   "localhost": {
-    title: "Sightseeing (Local)",
+    title: "Sightseeing",
     favicon: "/tdcp.png",
     logoIndex: 0,
   },
