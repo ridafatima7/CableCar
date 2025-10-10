@@ -41,7 +41,7 @@ const Header = () => {
         {/* Left: Logo */}
         <div className="flex items-center">
           <Link to="/">
-            <img src={navbarDetails?.logos[0] || Logo} alt="Logo" className={`${hostname.includes("soft-wheel-train-tdcp.vercel.app") ? "w-[5rem]" : "w-[12rem]"
+            <img src={navbarDetails?.logos[0] || Logo} alt="Logo" className={`${hostname.includes("soft-wheel-train-tdcp.vercel.app") ? "w-[4rem]" : "w-[12rem]"
               }`} />
           </Link>
         </div>

@@ -9,7 +9,11 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 
 const Hero = () => {
+    const hostname = window.location.hostname;
     const [ticketType, setTicketType] = useState('General');
+    const dropdownCityRef = useRef(null);
+    const [selectedCity, setSelectedCity] = useState('');
+    const [showCityOptions, setShowCityOptions] = useState(false);
     const [general, setGeneral] = useState(0);
     const [showCheckout, setShowCheckout] = useState(false);
     const [executive, setExecutive] = useState(0);
@@ -22,6 +26,7 @@ const Hero = () => {
     const [totalSelected, setTotalSelected] = useState(0);
     const [checkoutData, setCheckoutData] = useState(null);
     const storedData = JSON.parse(sessionStorage.getItem("content") || "{}");
+    const cities = ["Murree", "Patriata", "Kallar Kahar", "Lahore"];
 
     let heroContent = null;
 
@@ -98,18 +103,29 @@ const Hero = () => {
                     price: ticket?.price || 0
                 };
             });
-            if (selectedTickets.length === 0) {
-                toast.error("Please Select at least 1 Ticket before Proceeding.");
-                return;
-            }
+        if (selectedTickets.length === 0) {
+            toast.error("Please Select at least 1 Ticket before Proceeding.");
+            return;
+        }
         setCheckoutData({
             date,
+            selectedCity,
             selectedTickets,
-            tickets // full tickets array
+            tickets
         });
 
         setShowCheckout(true);
     };
+    const isBoating = hostname.includes("boating-service.vercel.app");
+    const isSightseeing = hostname.includes("sightseeing-green.vercel.app");
+
+    // --- Width logic ---
+    const mdWidth = isBoating || isSightseeing ? "md:w-[65%]" : "md:w-[55%]";
+
+    // --- City/Lake field visibility ---
+    const showCityDropdown = isBoating || isSightseeing;
+    const cityLabel = isBoating ? "Select Lake" : "Select City";
+
     return (
         <section
             className="relative z-10 bg-cover bg-center bg-no-repeat min-h-[100vh] flex items-start  md:items-center"
@@ -144,80 +160,53 @@ const Hero = () => {
                     }}
                 />
             )}
-
-
             <ThankyouModal
                 show={showThankYou}
                 onClose={() => setShowThankYou(false)}
-            
             />
             {/* Floating Card */}
-            <div className="absolute md:bottom-[-2.5rem] bottom-[10%] left-1/2 transform -translate-x-1/2 w-[95%] md:w-[55%] bg-white rounded-xl shadow-xl p-2 flex flex-col md:flex-row gap-3  items-center justify-between z-20">
+            <div
+                className={`absolute md:bottom-[-2.5rem] bottom-[10%] left-1/2 transform -translate-x-1/2 w-[95%] ${mdWidth} bg-white rounded-xl shadow-xl p-2 flex flex-col md:flex-row gap-3 items-center justify-between z-20`}
+            >
+                {/* City/Lake Dropdown — shown only for boating or sightseeing */}
+                {showCityDropdown && (
+                    <div className="bg-[#F5F5F5] p-2 rounded-xl w-full relative" ref={dropdownCityRef}>
+                        <label className="block text-sm font-semibold text-gray-600">
+                            {cityLabel}
+                        </label>
 
-                {/* <div className="bg-[#F5F5F5] p-2 rounded-xl w-full w-full">
-                    <label className="block text-sm font-semibold text-gray-600 my-2">
-                        Choose No. of Tickets
-                    </label>
-                    <div className="relative w-full" ref={dropdownRef}>
                         <div
-                            className="flex items-start justify-between  rounded-xl bg-[#F5F5F5] py-2  cursor-pointer"
-                            onClick={() => setShowOptions((prev) => !prev)}
+                            className="flex items-start justify-between rounded-xl bg-[#F5F5F5] py-1 cursor-pointer"
+                            onClick={() => setShowCityOptions((prev) => !prev)}
                         >
                             <span className="smallText">
-                                {general === 0 && executive === 0
-                                    ? 'Choose tickets'
-                                    : `${general > 0 ? `${general} General` : ''} ${executive > 0 ? `${executive} Executive` : ''
-                                    }`}
+                                {selectedCity ? selectedCity : isBoating ? "Choose Lake" : "Choose City"}
                             </span>
-
                             <FaChevronDown className="text-gray-500 mr-2 mt-2" size={14} />
                         </div>
 
-                        {showOptions && (
-                            <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-50">
-                                {['General', 'Executive'].map((type) => {
-                                    const count = type === 'General' ? general : executive;
-                                    return (
-                                        <div
-                                            key={type}
-                                            className="flex justify-between items-center px-4 py-2 hover:bg-gray-100 transition cursor-pointer"
-                                            onClick={() => setTicketType(type)}
-                                        >
-                                            <span className="smallText">{type}</span>
-                                            <div className="flex items-center gap-2">
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        type === 'General'
-                                                            ? setGeneral(Math.max(0, general - 1))
-                                                            : setExecutive(Math.max(0, executive - 1));
-                                                    }}
-                                                    className="bg-[#D2ECDD]  hover:text-white rounded-xl p-2"
-                                                >
-                                                    <FaMinus size={12} />
-                                                </button>
-                                                <span className="text-sm font-semibold w-4 text-center">{count}</span>
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        type === 'General'
-                                                            ? setGeneral(general + 1)
-                                                            : setExecutive(executive + 1);
-                                                    }}
-                                                    className="bg-[#D2ECDD]  hover:text-white rounded-xl p-1 p-2"
-                                                >
-                                                    <FaPlus size={12} />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
+                        {showCityOptions && (
+                            <div className="absolute top-full smallText left-0 mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-50">
+                                {cities.map((city, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="px-4 py-2 hover:bg-gray-100 transition cursor-pointer"
+                                        onClick={() => {
+                                            setSelectedCity(city);
+                                            setShowCityOptions(false);
+                                        }}
+                                    >
+                                        {city}
+                                    </div>
+                                ))}
                             </div>
                         )}
                     </div>
-                </div> */}
+                )}
+
+                {/* Ticket Selector */}
                 <div className="bg-[#F5F5F5] p-2 rounded-xl w-full">
-                    <label className="block text-sm font-semibold text-gray-600 ">
+                    <label className="block text-sm font-semibold text-gray-600">
                         Choose No. of Tickets
                     </label>
 
@@ -225,12 +214,14 @@ const Hero = () => {
                         {/* Trigger */}
                         <div
                             className="flex items-start justify-between rounded-xl bg-[#F5F5F5] py-1 cursor-pointer"
-                            onClick={() => setShowOptions(prev => !prev)}
+                            onClick={() => setShowOptions((prev) => !prev)}
                         >
                             <span className="smallText">
                                 {Object.entries(ticketCounts).some(([_, count]) => count > 0)
-                                    ? `Ticket Selected : ${Object.values(ticketCounts).reduce((sum, c) => sum + c, 0)
-                                    }`
+                                    ? `Ticket Selected : ${Object.values(ticketCounts).reduce(
+                                        (sum, c) => sum + c,
+                                        0
+                                    )}`
                                     : "Choose tickets"}
                             </span>
 
@@ -240,19 +231,24 @@ const Hero = () => {
                         {/* Dropdown */}
                         {showOptions && (
                             <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-50">
-                                {tickets.map(ticket => (
+                                {tickets.map((ticket) => (
                                     <div
                                         key={ticket.id}
                                         className="flex justify-between items-center px-4 py-2 hover:bg-gray-100 transition cursor-pointer"
                                     >
-                                        <span className="smallText">{ticket.description}(Rs {ticket.price})</span>
+                                        <span className="smallText">
+                                            {ticket.description} (Rs {ticket.price})
+                                        </span>
                                         <div className="flex items-center gap-2">
                                             <button
-                                                onClick={e => {
+                                                onClick={(e) => {
                                                     e.stopPropagation();
-                                                    setTicketCounts(prev => ({
+                                                    setTicketCounts((prev) => ({
                                                         ...prev,
-                                                        [ticket.description]: Math.max(0, prev[ticket.description] - 1)
+                                                        [ticket.description]: Math.max(
+                                                            0,
+                                                            prev[ticket.description] - 1
+                                                        ),
                                                     }));
                                                 }}
                                                 className="bg-[#D2ECDD] hover:text-white rounded-xl p-2"
@@ -263,11 +259,12 @@ const Hero = () => {
                                                 {ticketCounts[ticket.description] || 0}
                                             </span>
                                             <button
-                                                onClick={e => {
+                                                onClick={(e) => {
                                                     e.stopPropagation();
-                                                    setTicketCounts(prev => ({
+                                                    setTicketCounts((prev) => ({
                                                         ...prev,
-                                                        [ticket.description]: (prev[ticket.description] || 0) + 1
+                                                        [ticket.description]:
+                                                            (prev[ticket.description] || 0) + 1,
                                                     }));
                                                 }}
                                                 className="bg-[#D2ECDD] hover:text-white rounded-xl p-2"
@@ -289,15 +286,20 @@ const Hero = () => {
                         onChange={(value) => setDate(value)}
                         placeholder="Choose Date"
                         suffixIcon={null}
-                        disabledDate={(currentDate) => currentDate && currentDate.isBefore(dayjs().startOf('day'))}
+                        disabledDate={(currentDate) =>
+                            currentDate && currentDate.isBefore(dayjs().startOf("day"))
+                        }
                         className="custom-datepicker w-full md:w-60 h-10 pr-4 pl-0 py-1 bg-[#F5F5F5] rounded-xl hover:bg-[#F5F5F5] focus:bg-[#F5F5F5] border-none outline-none focus:ring-0"
                     />
                 </div>
 
                 {/* Book Now Button */}
-                <div className="flex   w-full md:w-auto">
+                <div className="flex w-full md:w-auto">
                     <div className="w-full md:w-auto flex items-center justify-center">
-                        <button onClick={handleCheckout} className="w-full text-nowrap md:w-auto py-3 heroBtn px-8 transition duration-300">
+                        <button
+                            onClick={handleCheckout}
+                            className="w-full text-nowrap md:w-auto py-3 heroBtn px-8 transition duration-300"
+                        >
                             Book Now
                         </button>
                     </div>
