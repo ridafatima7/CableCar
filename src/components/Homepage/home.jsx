@@ -97,7 +97,7 @@ const Home = () => {
     const ContactUs = sectionsWithImages.find(sec => sec.id === "contact us");
     const reviews = sectionsWithImages.find(sec => sec.id === "reviews");
     const services = sectionsWithImages.find(sec => sec.id === "OUR SERVICES");
-    console.log(aboutUsContent?.image)
+    console.log(ContactUs?.image)
 
     return (
         <>
@@ -257,7 +257,7 @@ const Home = () => {
                                 <p className="smallText mb-4 text-white" style={{ color: "white" }}>
                                     {whyChooseContent?.downloadPamphlet?.text || "Embark on Your Scenic Ride to the Clouds Today"}
                                 </p>
-                                <button className="secondary px-6 py-3">
+                                <button className=" px-6 py-3">
                                     {whyChooseContent?.downloadPamphlet?.btn || "Download Pamphlet"}
                                 </button>
                             </div>

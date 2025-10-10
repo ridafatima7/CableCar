@@ -125,6 +125,7 @@ const Hero = () => {
     // --- City/Lake field visibility ---
     const showCityDropdown = isBoating || isSightseeing;
     const cityLabel = isBoating ? "Select Lake" : "Select City";
+    console.log(heroContent?.bgImg)
 
     return (
         <section
@@ -251,7 +252,7 @@ const Hero = () => {
                                                         ),
                                                     }));
                                                 }}
-                                                className="bg-[#D2ECDD] hover:text-white rounded-xl p-2"
+                                                className=" rounded-xl p-2"
                                             >
                                                 <FaMinus size={12} />
                                             </button>
