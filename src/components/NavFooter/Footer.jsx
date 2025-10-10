@@ -48,7 +48,7 @@ const Footer = () => {
         {/* Column 2: Services */}
         <div>
           <h3 className="subheading-bold mb-4">
-            {footerDetails?.middleSection?.heading || "Services"}
+            {footerDetails?.middleSection?.heading || "Our Services"}
           </h3>
           <ul className="space-y-2 smallText">
             {(footerDetails?.middleSection?.menus || [
@@ -80,7 +80,7 @@ const Footer = () => {
       <div className="mx-auto border-t mt-10 py-7 flex flex-col md:flex-row justify-between items-center text-sm smallText">
         <span className='smallText'>{footerDetails?.copyright || "Copyright © 2025 tdcp"}</span>
         <span className='smallText'>
-          Designed & Developed by <span className='primary underline'>Stash Technologies</span>
+          Designed & Developed by <span className='primary hover:underline'>Stash Technologies</span>
         </span>
       </div>
     </footer>

@@ -76,8 +76,19 @@ const Header = () => {
 
         {/* Right: Extra Logos */}
         <div className="hidden md:flex space-x-4">
-          <img src={navbarDetails?.logos[1] || ExtraLogo1} alt="Extra 1" className="h-[4rem]" />
-          <img src={navbarDetails?.logos[2] || ExtraLogo2} alt="Extra 2" className="h-[4rem]" />
+          {/* Show first logo only if NOT soft-wheel-train */}
+          {!hostname.includes("soft-wheel-train-tdcp.vercel.app") && (
+            <img
+              src={navbarDetails?.logos[1] || ExtraLogo1}
+              alt="Extra 1"
+              className="h-[4rem]"
+            />
+          )}
+          <img
+            src={navbarDetails?.logos[2] || ExtraLogo2}
+            alt="Extra 2"
+            className="h-[4rem]"
+          />
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -136,7 +147,13 @@ const Header = () => {
 
           {/* Logos */}
           <div className="flex space-x-4 pt-3">
-            <img src={navbarDetails?.logos[1] || ExtraLogo1} alt="Extra 1" className="h-[4rem]" />
+          {!hostname.includes("soft-wheel-train-tdcp.vercel.app") && (
+            <img
+              src={navbarDetails?.logos[1] || ExtraLogo1}
+              alt="Extra 1"
+              className="h-[4rem]"
+            />
+          )}
             <img src={navbarDetails?.logos[2] || ExtraLogo2} alt="Extra 2" className="h-[4.4rem]" />
           </div>
         </div>
