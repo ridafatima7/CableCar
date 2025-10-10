@@ -10,11 +10,38 @@ export const getSectionsWithImages = (sections = []) => {
     };
   });
 };
+export const domainConfig = {
+  "cable-car.vercel.app": {
+    title: "Cable Car",
+    favicon: "/Logo.png",
+    logoIndex: 0, 
+  },
+  "boating-service.vercel.app": {
+    title: "Boating Service",
+    favicon: "/boating.png",
+    logoIndex: 0,
+  },
+  "sightseeing-green.vercel.app": {
+    title: "Sightseeing",
+    favicon: "/sightseeing.png",
+    logoIndex: 0,
+  },
+  "soft-wheel-train-tdcp.vercel.app": {
+    title: "Soft Wheel Train",
+    favicon: "/tdcp.png",
+    logoIndex: 0,
+  },
+  "localhost": {
+    title: "Sightseeing (Local)",
+    favicon: "/tdcp.png",
+    logoIndex: 0,
+  },
+};
 // Map each domain to its corresponding content ID
 const contentMap = {
   "boating-service.vercel.app": 16,
   "soft-wheel-train-tdcp.vercel.app": 18,
-  "sightseeing-five.vercel.app": 17,
+  "sightseeing-green.vercel.app": 17,
   "cable-car.vercel.app": 1,
   "localhost": 17, 
 };
