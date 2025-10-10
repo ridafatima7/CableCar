@@ -6,6 +6,7 @@ import ExtraLogo2 from '../../assets/png.png';
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  const hostname = window.location.hostname;
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const storedData = JSON.parse(sessionStorage.getItem("content") || "{}");

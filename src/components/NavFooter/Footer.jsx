@@ -3,6 +3,7 @@ import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import Logo from "../../assets/Logo.png";
 
 const Footer = () => {
+  const hostname = window.location.hostname;
   const storedData = JSON.parse(sessionStorage.getItem("content") || "{}");
 
   let footerDetails = null;
